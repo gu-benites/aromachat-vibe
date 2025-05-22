@@ -11,6 +11,30 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: [
+                '@/features/*/components/*',
+                '@/features/*/services/*',
+                '@/features/*/hooks/*',
+                '@/features/*/schemas/*',
+                '@/features/*/types/*',
+                '@/features/*/queries/*',
+                '@/features/*/translations/*',
+                '@/features/*/utils/*',
+              ],
+              message: 'Do not import directly from feature internals. Import only from the feature\'s index.ts (barrel file).',
+            },
+          ],
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;

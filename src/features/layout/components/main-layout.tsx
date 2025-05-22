@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { cn } from '@/lib/utils/cn';
-import { LeftSideNavigation } from './left-side-navigation';
+import { LeftSideNavigation, SidebarProvider } from './sidebar-nav-left';
 import { useTheme } from '@/features/theme';
 
 interface MainLayoutProps {
@@ -21,29 +21,31 @@ export function MainLayout({
     <div className={cn('flex min-h-screen flex-col', className)}>
       <div className="flex flex-1">
         {/* Sidebar */}
-        <LeftSideNavigation 
-          isCollapsed={isCollapsed}
-          onCollapse={() => setIsCollapsed(!isCollapsed)}
-          className="hidden md:block"
-        />
+        <SidebarProvider>
+          <LeftSideNavigation 
+            isCollapsed={isCollapsed}
+            onCollapse={() => setIsCollapsed(!isCollapsed)}
+            className="hidden md:block"
+          />
 
-        {/* Mobile sidebar */}
-        <div className={cn(
-          'fixed inset-0 z-50 bg-background/80 backdrop-blur-sm transition-opacity md:hidden',
-          isCollapsed ? 'pointer-events-none opacity-0' : 'opacity-100'
-        )}>
+          {/* Mobile sidebar */}
           <div className={cn(
-            'fixed inset-y-0 left-0 z-50 w-64 bg-background',
-            'transform transition-transform duration-300 ease-in-out',
-            isCollapsed ? '-translate-x-full' : 'translate-x-0'
+            'fixed inset-0 z-50 bg-background/80 backdrop-blur-sm transition-opacity md:hidden',
+            isCollapsed ? 'pointer-events-none opacity-0' : 'opacity-100'
           )}>
-            <LeftSideNavigation 
-              isCollapsed={false}
-              onCollapse={() => setIsCollapsed(true)}
-              className="h-full"
-            />
+            <div className={cn(
+              'fixed inset-y-0 left-0 z-50 w-64 bg-background',
+              'transform transition-transform duration-300 ease-in-out',
+              isCollapsed ? '-translate-x-full' : 'translate-x-0'
+            )}>
+              <LeftSideNavigation 
+                isCollapsed={false}
+                onCollapse={() => setIsCollapsed(true)}
+                className="h-full"
+              />
+            </div>
           </div>
-        </div>
+        </SidebarProvider>
 
         {/* Mobile sidebar toggle */}
         <button
