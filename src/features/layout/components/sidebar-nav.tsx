@@ -11,32 +11,23 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ThemeToggle } from '@/features/theme';
 import { 
   Home, 
-  Search, 
+  Search,
   BarChart3,
-  CheckCircle2, 
-  Target, 
-  Users, 
-  Settings, 
-  ChevronDown, 
+  CheckCircle2,
+  Target,
+  Users,
+  Settings,
+  Bell,
+  ChevronDown,
   ChevronRight,
   ChevronLeft,
-  Menu,
   MessageSquare,
   Mail,
   FileText,
   Zap,
-  Bell,
   HelpCircle
 } from 'lucide-react';
-
-type NavItem = {
-  title: string;
-  href: string;
-  icon: React.ReactNode;
-  badge?: number;
-  isActive?: boolean;
-  children?: NavItem[];
-};
+import type { NavItem } from '../types/layout.types';
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed?: boolean;
@@ -49,10 +40,7 @@ export function SidebarNav({
   onCollapse 
 }: SidebarNavProps) {
   const pathname = usePathname();
-  const [openItems, setOpenItems] = React.useState<Record<string, boolean>>({
-    'Reporting': true,
-    'Mail': true
-  });
+  const [openItems, setOpenItems] = React.useState<Record<string, boolean>>({});
 
   const navItems: NavItem[] = [
     {
@@ -68,34 +56,11 @@ export function SidebarNav({
       isActive: pathname.startsWith('/search'),
     },
     {
-      title: 'Reporting',
-      href: '/reporting',
-      icon: <BarChart3 className="h-5 w-5" />,
-      isActive: pathname.startsWith('/reporting'),
-      children: [
-        { 
-          title: 'Objectives', 
-          href: '/reporting/objectives',
-          isActive: pathname === '/reporting/objectives',
-        },
-        { 
-          title: 'Career Hub', 
-          href: '/reporting/career-hub',
-          isActive: pathname === '/reporting/career-hub',
-        },
-      ]
-    },
-    {
-      title: 'Check-ins',
-      href: '/check-ins',
-      icon: <CheckCircle2 className="h-5 w-5" />,
-      isActive: pathname.startsWith('/check-ins'),
-    },
-    {
-      title: 'Objectives',
-      href: '/objectives',
-      icon: <Target className="h-5 w-5" />,
-      isActive: pathname.startsWith('/objectives'),
+      title: 'Messages',
+      href: '/messages',
+      icon: <MessageSquare className="h-5 w-5" />,
+      badge: 3,
+      isActive: pathname.startsWith('/messages'),
     },
     {
       title: 'Team',
@@ -104,35 +69,26 @@ export function SidebarNav({
       isActive: pathname.startsWith('/team'),
     },
     {
-      title: 'Messages',
-      href: '/messages',
-      icon: <MessageSquare className="h-5 w-5" />,
-      isActive: pathname.startsWith('/messages'),
-    },
-    {
-      title: 'Mail',
-      href: '/mail',
-      icon: <Mail className="h-5 w-5" />,
-      isActive: pathname.startsWith('/mail'),
-      children: [
-        { 
-          title: 'Inbox', 
-          href: '/mail/inbox',
-          isActive: pathname === '/mail/inbox',
-        },
-        { 
-          title: 'Drafts', 
-          href: '/mail/drafts',
-          isActive: pathname === '/mail/drafts',
-        },
-      ]
-    },
-    {
       title: 'Tasks',
       href: '/tasks',
       icon: <FileText className="h-5 w-5" />,
       isActive: pathname.startsWith('/tasks'),
       badge: 3,
+    },
+  ];
+
+  const bottomNavItems: NavItem[] = [
+    {
+      title: 'Settings',
+      href: '/settings',
+      icon: <Settings className="h-5 w-5" />,
+      isActive: pathname.startsWith('/settings'),
+    },
+    {
+      title: 'Help',
+      href: '/help',
+      icon: <HelpCircle className="h-5 w-5" />,
+      isActive: pathname.startsWith('/help'),
     },
   ];
 
@@ -147,7 +103,7 @@ export function SidebarNav({
     onCollapse?.(!isCollapsed);
   };
 
-  const renderNavItem = (item: NavItem, index: number) => {
+  const renderNavItem = (item: NavItem) => {
     if (item.children) {
       const isOpen = isCollapsed ? false : openItems[item.title];
       
@@ -172,7 +128,8 @@ export function SidebarNav({
                 )}
               >
                 <div className="flex items-center">
-                  <span className={cn("flex-shrink-0 text-muted-foreground group-hover:text-accent-foreground transition-colors", 
+                  <span className={cn(
+                    "flex-shrink-0 text-muted-foreground group-hover:text-accent-foreground transition-colors", 
                     isCollapsed ? 'mr-0' : 'mr-3',
                     item.isActive ? 'text-accent-foreground' : ''
                   )}>
@@ -191,18 +148,17 @@ export function SidebarNav({
                 )}
               </Button>
             </CollapsibleTrigger>
-            {!isCollapsed && isOpen && (
-              <CollapsibleContent className="mt-1 space-y-1 pl-11">
+            {!isCollapsed && (
+              <CollapsibleContent className="space-y-1">
                 {item.children.map((child) => (
                   <Link
                     key={child.href}
                     href={child.href}
                     className={cn(
-                      'flex items-center h-8 px-3 text-sm rounded-md transition-colors',
-                      'hover:bg-accent/50',
+                      'flex items-center h-9 px-8 text-sm rounded-md transition-colors',
                       child.isActive 
-                        ? 'text-accent-foreground font-medium' 
-                        : 'text-muted-foreground hover:text-accent-foreground'
+                        ? 'bg-accent text-accent-foreground' 
+                        : 'text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground'
                     )}
                   >
                     {child.title}
@@ -228,7 +184,8 @@ export function SidebarNav({
             : 'text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground',
         )}
       >
-        <span className={cn("flex-shrink-0 text-muted-foreground group-hover:text-accent-foreground transition-colors", 
+        <span className={cn(
+          "flex-shrink-0 text-muted-foreground group-hover:text-accent-foreground transition-colors", 
           isCollapsed ? 'mr-0' : 'mr-3',
           item.isActive ? 'text-accent-foreground' : ''
         )}>
@@ -265,7 +222,7 @@ export function SidebarNav({
             <div className="h-7 w-7 rounded-md bg-primary flex items-center justify-center text-primary-foreground">
               <Zap className="h-4 w-4" />
             </div>
-            <span className="ml-2.5 text-lg font-semibold text-foreground">Beyond UI</span>
+            <span className="ml-2.5 text-lg font-semibold text-foreground">AromaChat</span>
           </div>
         )}
         <Button
@@ -273,13 +230,8 @@ export function SidebarNav({
           size="icon"
           onClick={toggleSidebar}
           className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-accent/50"
-          aria-label={isCollapsed ? 'Expand' : 'Collapse'}
         >
-          {isCollapsed ? (
-            <ChevronRight className="h-4 w-4" />
-          ) : (
-            <ChevronLeft className="h-4 w-4" />
-          )}
+          {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>
       </div>
 
@@ -290,26 +242,28 @@ export function SidebarNav({
         </nav>
       </ScrollArea>
 
-      {/* Footer */}
-      <div className="border-t p-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
+      {/* Footer with bottom nav items and user profile */}
+      <div className="border-t p-2">
+        <nav className="space-y-1">
+          {bottomNavItems.map(renderNavItem)}
+        </nav>
+
+        <div className="mt-3 pt-3 border-t">
+          <div className="flex items-center px-3">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="/avatars/user-1.jpg" alt="User" />
-              <AvatarFallback>AT</AvatarFallback>
+              <AvatarImage src="/avatars/user-1.jpg" alt="@username" />
+              <AvatarFallback>UN</AvatarFallback>
             </Avatar>
             {!isCollapsed && (
-              <div className="ml-2.5 overflow-hidden">
-                <p className="text-sm font-medium text-foreground truncate">Anna Taylor</p>
-                <p className="text-xs text-muted-foreground truncate">anna.t@email.com</p>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-foreground">Username</p>
+                <p className="text-xs text-muted-foreground">user@example.com</p>
               </div>
             )}
           </div>
-          {!isCollapsed && (
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-accent/50">
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          )}
+          <div className="mt-3 flex justify-center">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </div>

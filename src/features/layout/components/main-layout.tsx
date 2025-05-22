@@ -1,22 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { LayoutProps } from '../types/layout.types';
 import * as React from 'react';
 import { cn } from '@/lib/utils/cn';
-import { LeftSideNavigation } from './left-side-navigation'; // Updated import
+import { LeftSideNavigation } from './left-side-navigation';
 import { useTheme } from '@/features/theme';
 
-/**
- * MainLayout component that provides the overall application structure
- */
+interface MainLayoutProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
 export function MainLayout({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+}: MainLayoutProps) {
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const { isDark } = useTheme();
 
@@ -24,29 +21,28 @@ export function MainLayout({
     <div className={cn('flex min-h-screen flex-col', className)}>
       <div className="flex flex-1">
         {/* Sidebar */}
-        <LeftSideNavigation // Replaced SidebarNav
+        <LeftSideNavigation 
           isCollapsed={isCollapsed}
-          onCollapse={setIsCollapsed}
-          className="hidden md:block" // Desktop sidebar is fixed, main content will have margin
+          onCollapse={() => setIsCollapsed(!isCollapsed)}
+          className="hidden md:block"
         />
 
-        {/* Mobile sidebar - uses LeftSideNavigation as well */}
-        {/* This section handles the overlay and visibility for mobile */}
-        {!isCollapsed && ( // Show overlay and mobile sidebar only when not collapsed (menu is open)
-          <div className={cn(
-            'fixed inset-0 z-40 bg-background/80 backdrop-blur-sm transition-opacity md:hidden',
-             // Apply opacity based on isCollapsed for smooth transition
-          )} onClick={() => setIsCollapsed(true)} /> // Close on overlay click
-        )}
+        {/* Mobile sidebar */}
         <div className={cn(
-          "fixed inset-y-0 left-0 z-50 transition-transform duration-300 ease-in-out md:hidden",
-          isCollapsed ? "-translate-x-full" : "translate-x-0 w-64" // Slide in/out
+          'fixed inset-0 z-50 bg-background/80 backdrop-blur-sm transition-opacity md:hidden',
+          isCollapsed ? 'pointer-events-none opacity-0' : 'opacity-100'
         )}>
-            <LeftSideNavigation // Replaced SidebarNav
-              isCollapsed={false} // Mobile sidebar is always "expanded" when shown
-              onCollapse={() => setIsCollapsed(true)} // Collapse action should hide it
-              className="h-full border-r" // Added border-r for consistency if needed
+          <div className={cn(
+            'fixed inset-y-0 left-0 z-50 w-64 bg-background',
+            'transform transition-transform duration-300 ease-in-out',
+            isCollapsed ? '-translate-x-full' : 'translate-x-0'
+          )}>
+            <LeftSideNavigation 
+              isCollapsed={false}
+              onCollapse={() => setIsCollapsed(true)}
+              className="h-full"
             />
+          </div>
         </div>
 
         {/* Mobile sidebar toggle */}
@@ -55,7 +51,7 @@ export function MainLayout({
           className={cn(
             'fixed bottom-4 left-4 z-50 rounded-full bg-primary p-3 text-primary-foreground shadow-lg',
             'transition-transform duration-200 md:hidden',
-            isCollapsed ? 'translate-x-0' : 'translate-x-72',
+            isCollapsed ? 'translate-x-0' : 'translate-x-72'
           )}
           aria-label={isCollapsed ? 'Open menu' : 'Close menu'}
         >
@@ -97,12 +93,14 @@ export function MainLayout({
 
         {/* Main content */}
         <main className={cn(
-          'flex-1 overflow-auto bg-background transition-all duration-300 ease-in-out', // Added transition
+          'flex-1 overflow-auto bg-background transition-all duration-300 ease-in-out',
           isDark ? 'dark' : '',
-          isCollapsed ? 'md:ml-[4.5rem]' : 'md:ml-64' // Dynamic margin for desktop
-        )}
-        >
-          <div className="h-full p-4 md:p-6">{children}</div>
+          'md:ml-[4.5rem]',
+          !isCollapsed && 'md:ml-56'
+        )}>
+          <div className="container mx-auto h-full p-4 md:p-6">
+            {children}
+          </div>
         </main>
       </div>
     </div>
