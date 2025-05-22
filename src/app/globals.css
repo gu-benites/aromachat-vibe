@@ -35,6 +35,7 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+    --brand-accent: 262.1 83.3% 57.8%; /* MVP color */
   }
 
   .dark {
@@ -56,15 +57,16 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 217.2 32.6% 20.5%; /* MVP color: hover/active item bg dark */
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 85.7% 97.3%; /* MVP color */
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    --brand-accent: 262.1 83.3% 57.8%; /* MVP color (no dark variant specified, using light) */
   }
 }
 
@@ -75,6 +77,87 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Custom scrollbar for webkit browsers */
+.sidebar-content::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar-content::-webkit-scrollbar-thumb {
+    background-color: #a1a1aa; /* zinc-400 */
+    border-radius: 3px;
+}
+.sidebar-content::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+.dark .sidebar-content::-webkit-scrollbar-thumb {
+    background-color: #52525b; /* zinc-600 */
+}
+
+/* Hide scrollbar for Firefox */
+.sidebar-content {
+    scrollbar-width: thin;
+    scrollbar-color: #a1a1aa transparent; /* thumb and track - zinc-400 */
+}
+.dark .sidebar-content {
+    scrollbar-color: #52525b transparent; /* zinc-600 */
+}
+
+/* For rotating chevrons */
+.rotate-180 {
+    transform: rotate(180deg);
+}
+.transition-transform {
+    transition-property: transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+/* Styles for when sidebar is collapsed */
+.sidebar-collapsed .nav-text,
+.sidebar-collapsed .user-info-main,
+.sidebar-collapsed .app-name,
+.sidebar-collapsed .bottom-menu-text,
+.sidebar-collapsed .chevron-icon,
+.sidebar-collapsed .badge-count { /* Target the count specifically */
+    display: none;
+}
+.sidebar-collapsed .nav-item,
+.sidebar-collapsed .logo-area,
+.sidebar-collapsed .user-profile-trigger {
+    justify-content: center;
+}
+.sidebar-collapsed .nav-icon {
+    margin-right: 0;
+}
+.sidebar-collapsed .user-avatar-container {
+    padding: 0.5rem;
+}
+.sidebar-collapsed .user-avatar-img {
+    width: 2rem;
+    height: 2rem;
+}
+.sidebar-collapsed .bottom-user-menu {
+    padding: 0.5rem;
+}
+.sidebar-collapsed .user-profile-trigger .flex-1 {
+    display: none;
+}
+.sidebar-collapsed .user-profile-trigger .chevron-icon { /* Specifically hide chevron in user trigger when collapsed */
+     display: none;
+}
+.sidebar-collapsed .notification-dot { /* Keep notification dot visible */
+    display: inline-block;
+    position: absolute;
+    top: 0.6rem; /* Adjust as needed */
+    right: 0.6rem; /* Adjust as needed */
+}
+.sidebar-collapsed .nav-item-with-badge .nav-icon { /* Ensure icon is relatively positioned for dot */
+    position: relative;
+}
+ .sidebar-collapsed .nav-item-with-badge .notification-dot {
+    right: -0.25rem; /* Adjust to position near the icon */
+    top: -0.25rem;
 }
 
 @theme inline {

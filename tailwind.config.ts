@@ -51,6 +51,7 @@ const config: Config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        'brand-accent': 'hsl(var(--brand-accent))', // Added brand-accent
       },
       borderRadius: {
         lg: 'var(--radius)',
