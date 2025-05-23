@@ -1,72 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* stylelint-disable */
+/* Custom scrollbar */
+:root {
+  --scrollbar-track: hsl(0 0% 13% / 0.1);
+  --scrollbar-thumb: hsl(0 0% 65% / 0.3);
+  --scrollbar-thumb-hover: hsl(0 0% 65% / 0.5);
+}
+
+/* Light mode scrollbar */
+:root {
+  --scrollbar-track: hsl(240 5% 96% / 0.5);
+  --scrollbar-thumb: hsl(240 4% 46% / 0.3);
+  --scrollbar-thumb-hover: hsl(240 4% 46% / 0.5);
+}
+
+/* Dark mode scrollbar */n.dark {
+  --scrollbar-track: hsl(0 0% 13% / 0.1);
+  --scrollbar-thumb: hsl(0 0% 65% / 0.3);
+  --scrollbar-thumb-hover: hsl(0 0% 65% / 0.5);
+}
+
+/* Scrollbar styles */
+.scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.scroll-area::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scroll-area::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 3px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 3px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.scroll-area::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
 @layer base {
   :root {
+    /* Light theme (minimal, focused on dark theme) */
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 0 0% 6%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 0 0% 6%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 265 89% 78%;
+    --popover-foreground: 0 0% 6%;
+    --primary: 259 65% 57%;  /* #6E56CF */
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 240 6% 10%;
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
-    --accent: 265 89% 78%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 259 65% 57%;  /* #6E56CF */
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 265 89% 78%;
-    --chart-1: 265 89% 78%;
-    --chart-2: 220 70% 50%;
-    --chart-3: 280 65% 60%;
-    --chart-4: 340 75% 55%;
-    --chart-5: 30 80% 55%;
-    --radius: 0.5rem;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 259 65% 57%;  /* #6E56CF */
+    --radius: 0.5rem;  /* 8px */
+    
+    /* Chart colors */
+    --chart-1: 259 65% 57%;  /* #6E56CF */
+    --chart-2: 220 70% 50%;  /* #3B82F6 */
+    --chart-3: 280 65% 60%;  /* #A855F7 */
+    --chart-4: 340 75% 55%;  /* #EC4899 */
+    --chart-5: 30 80% 55%;  /* #F59E0B */
   }
 
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-    --popover: 224 71% 4%;
-    --popover-foreground: 213 31% 91%;
-    --primary: 265 89% 78%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 222 47% 11%;
-    --secondary-foreground: 213 31% 91%;
-    --muted: 223 47% 11%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 265 89% 78%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-    --ring: 265 89% 78%;
-    --chart-1: 265 89% 78%;
-    --chart-2: 220 70% 50%;
-    --chart-3: 280 65% 60%;
-    --chart-4: 340 75% 55%;
-    --chart-5: 30 80% 55%;
+    /* Dark theme - matching purchased template */
+    --background: 0 0% 6%;      /* #0F0F0F */
+    --foreground: 0 0% 93%;     /* #EDEDED */
+    --card: 0 0% 10%;          /* #1A1A1A */
+    --card-foreground: 0 0% 93%; /* #EDEDED */
+    --popover: 0 0% 10%;       /* #1A1A1A */
+    --popover-foreground: 0 0% 93%;
+    --primary: 259 65% 57%;     /* #6E56CF */
+    --primary-foreground: 255 100% 100%;
+    --secondary: 0 0% 16%;      /* #2A2A2A */
+    --secondary-foreground: 0 0% 93%;
+    --muted: 0 0% 13%;         /* #212121 */
+    --muted-foreground: 0 0% 65%;  /* #A6A6A6 */
+    --accent: 259 65% 57%;      /* #6E56CF */
+    --accent-foreground: 255 100% 100%;
+    --destructive: 0 84% 60%;   /* #EF4444 */
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 16%;         /* #2A2A2A */
+    --input: 0 0% 16%;          /* #2A2A2A */
+    --ring: 259 65% 57%;        /* #6E56CF */
+    
+    /* Chart colors (same as light theme) */
+    --chart-1: 259 65% 57%;  /* #6E56CF */
+    --chart-2: 220 70% 50%;  /* #3B82F6 */
+    --chart-3: 280 65% 60%;  /* #A855F7 */
+    --chart-4: 340 75% 55%;  /* #EC4899 */
+    --chart-5: 30 80% 55%;   /* #F59E0B */
   }
 }
 
 @layer base {
   * {
-    @apply border-border; /* Updated from template */
+    @apply border-border;
+    -webkit-tap-highlight-color: transparent;
   }
+  
   body {
-    @apply bg-background text-foreground; /* Updated from template */
-    font-feature-settings: 'rlig' 1, 'calt' 1; /* Existing preserved */
+    @apply bg-background text-foreground antialiased font-sans;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
+  }
+  
+  h1 { @apply text-3xl md:text-4xl; }
+  h2 { @apply text-2xl md:text-3xl; }
+  h3 { @apply text-xl md:text-2xl; }
+  h4 { @apply text-lg md:text-xl; }
+  
+  /* Card styles */
+  .card {
+    @apply bg-card border border-border rounded-lg overflow-hidden transition-all duration-200;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  .card::before {
+    content: '';
+    @apply absolute inset-0 rounded-lg pointer-events-none;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02);
+    z-index: 0;
+  }
+  
+  .card:hover {
+    @apply border-primary/50;
+    transform: translateY(-1px);
+  }
+  
+  .card-content {
+    @apply p-5 relative z-10;
+  }
+  
+  /* Form elements */
+  [type='text'],
+  [type='email'],
+  [type='url'],
+  [type='password'],
+  [type='number'],
+  [type='date'],
+  [type='datetime-local'],
+  [type='month'],
+  [type='search'],
+  [type='tel'],
+  [type='time'],
+  [type='week'],
+  [multiple],
+  textarea,
+  select {
+    @apply w-full rounded-lg border-border bg-background/50 text-foreground placeholder-muted-foreground/60 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background focus:border-transparent focus:outline-none transition-all duration-200;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+  
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border h-10 px-4 py-2;
+  }
+  
+  .btn-outline {
+    @apply border border-input bg-transparent hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2;
+  }
+  
+  .btn-ghost {
+    @apply hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2;
+  }
+  
+  .btn-link {
+    @apply text-primary underline-offset-4 hover:underline h-auto p-0;
   }
 }
 
@@ -311,9 +460,5 @@
     /* border-color: hsl(var(--border)); Preserved from template */
     outline-color: hsl(var(--ring) / 0.5); /* Existing preserved */
   }
-  body {
-    /* background-color: hsl(var(--background)); Preserved from template */
-    /* color: hsl(var(--foreground)); Preserved from template */
-    /* font-feature-settings: 'rlig' 1, 'calt' 1; Preserved from original */
-  }
+  /* Body styles are now handled in the base layer */
 }
