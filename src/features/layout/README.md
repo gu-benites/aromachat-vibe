@@ -8,17 +8,19 @@ This feature provides the main application layout structure, including the sideb
 layout/
 ├── components/               # Layout-related components
 │   ├── main-layout.tsx       # Main layout component
-│   └── left-side-navigation.tsx # Sidebar navigation component
-├── types/                   # TypeScript type definitions
-│   └── layout.types.ts      # Type definitions for layout
-└── README.md                # This file
+│   └── sidebar.tsx           # Sidebar navigation component
+├── contexts/                 # React contexts
+│   └── sidebar-context.tsx   # Sidebar context for state management
+├── types/                    # TypeScript type definitions
+│   └── layout.types.ts       # Type definitions for layout
+└── README.md                 # This file
 ```
 
 ## Features
 
 - Responsive layout with collapsible sidebar
-- Navigation menu with icons and badges
-- User profile section
+- Navigation menu with icons, badges, and submenus
+- Mobile-friendly design with slide-out menu
 - Theme toggle integration
 - Type-safe props and components
 
@@ -31,11 +33,9 @@ The main layout component that structures the application.
 #### Props
 
 ```typescript
-interface LayoutProps {
+interface MainLayoutProps {
   children: ReactNode;
-  showSidebar?: boolean;      // Whether to show the sidebar (default: true)
-  isSidebarCollapsed?: boolean; // Whether the sidebar is collapsed (controlled)
-  onSidebarCollapse?: (isCollapsed: boolean) => void; // Callback when sidebar collapse state changes
+  className?: string;         // Additional CSS classes
 }
 ```
 
@@ -53,35 +53,19 @@ function App() {
 }
 ```
 
-### LeftSideNavigation
+### Sidebar
 
-A collapsible sidebar navigation component.
+A responsive and collapsible sidebar navigation component with support for submenus.
 
-#### Props
-
-```typescript
-interface LeftSideNavigationProps {
-  isCollapsed?: boolean;      // Whether the sidebar is collapsed
-  onCollapse?: (isCollapsed: boolean) => void; // Callback when collapse state changes
-}
-```
+#### Features
+- Collapsible/expandable
+- Responsive design (hides on mobile, shows on desktop)
+- Supports nested submenus
+- Keyboard accessible
 
 #### Usage
 
-```tsx
-import { LeftSideNavigation } from '@/features/layout';
-
-function Sidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  
-  return (
-    <LeftSideNavigation 
-      isCollapsed={isCollapsed}
-      onCollapse={setIsCollapsed}
-    />
-  );
-}
-```
+The sidebar is automatically included in the `MainLayout` component. To customize the menu items, modify the `menuItems` array in the `sidebar.tsx` file.
 
 ## Theming
 
@@ -89,16 +73,18 @@ The layout components use CSS variables for theming. Make sure to wrap your appl
 
 ## Responsive Design
 
-The layout is responsive and will automatically adjust based on screen size:
-- On mobile: Sidebar is hidden by default and can be toggled with a menu button
+The layout is fully responsive:
+- On mobile: Sidebar is hidden by default and can be toggled with a menu button in the header
 - On desktop: Sidebar is visible by default and can be collapsed/expanded
+- Smooth transitions between states
 
 ## Accessibility
 
 - All interactive elements have proper ARIA attributes
-- Keyboard navigation is supported
-- Focus management is handled for modal dialogs and menus
+- Keyboard navigation is fully supported
+- Focus management is handled for all interactive elements
 - Color contrast meets WCAG 2.1 AA standards
+- Screen reader friendly
 
 ## Dependencies
 

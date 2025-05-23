@@ -1,12 +1,28 @@
-import { MessageSquare, Users, FileText } from 'lucide-react';
+'use client';
+
+import { MessageSquare, Users, FileText, Menu } from 'lucide-react';
+import { useSidebar } from '@/features/layout/contexts/sidebar-context';
 
 export default function Home() {
+  const { toggleSidebar, isCollapsed } = useSidebar();
+
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
+        {/* Mobile header with menu button */}
+        <div className="md:hidden flex items-center mb-6">
+          <button
+            onClick={toggleSidebar}
+            className="p-2 rounded-md hover:bg-accent"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+          <h1 className="text-xl font-semibold ml-4">AromaChat</h1>
+        </div>
+
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Welcome to AromaChat</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">Welcome to AromaChat</h1>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             A modern chat application with a beautiful and responsive interface.
           </p>
         </div>
