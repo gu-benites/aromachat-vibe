@@ -1,73 +1,99 @@
-'use client';
-
-import { MessageSquare, Users, FileText, Menu } from 'lucide-react';
-import { useSidebar } from '@/features/layout/contexts/sidebar-context';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BarChart, CheckCircle, LineChart, Users } from "lucide-react";
 
 export default function Home() {
-  const { toggleSidebar, isCollapsed } = useSidebar();
-
   return (
-    <div className="p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Mobile header with menu button */}
-        <div className="md:hidden flex items-center mb-6">
-          <button
-            onClick={toggleSidebar}
-            className="p-2 rounded-md hover:bg-accent"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-          <h1 className="text-xl font-semibold ml-4">AromaChat</h1>
-        </div>
-
-        <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Welcome to AromaChat</h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            A modern chat application with a beautiful and responsive interface.
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-lg border p-6 hover:shadow-md transition-shadow">
-            <div className="bg-primary/10 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-              <MessageSquare className="h-6 w-6 text-primary" />
+    // Removed DashboardLayout wrapper from here, as MainLayout will provide it.
+    // The content is now the direct child, as expected by MainLayout.
+    <div className="flex flex-col gap-6">
+      <p className="text-muted-foreground">
+        Welcome to your dashboard. Use the sidebar to navigate and the button above to toggle light/dark mode.
+      </p>
+      
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">1,234</div>
+            <p className="text-xs text-muted-foreground">+12% from last month</p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Tasks</CardTitle>
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">27</div>
+            <p className="text-xs text-muted-foreground">3 due today</p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Revenue</CardTitle>
+            <LineChart className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$24,345</div>
+            <p className="text-xs text-muted-foreground">+5.2% from last week</p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            <BarChart className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">12</div>
+            <p className="text-xs text-muted-foreground">2 launching this week</p>
+          </CardContent>
+        </Card>
+      </div>
+      
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+        <Card className="lg:col-span-4">
+          <CardHeader>
+            <CardTitle>Performance Overview</CardTitle>
+            <CardDescription>Your team's performance metrics for the past 30 days</CardDescription>
+          </CardHeader>
+          <CardContent className="h-80">
+            <div className="flex h-full items-center justify-center rounded-md border border-dashed p-4">
+              <p className="text-sm text-muted-foreground">Performance chart will appear here</p>
             </div>
-            <h2 className="text-xl font-semibold mb-2">Real-time Messaging</h2>
-            <p className="text-muted-foreground">
-              Chat with your team in real-time with our fast and reliable messaging system.
-            </p>
-          </div>
-          
-          <div className="rounded-lg border p-6 hover:shadow-md transition-shadow">
-            <div className="bg-primary/10 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-              <Users className="h-6 w-6 text-primary" />
+          </CardContent>
+        </Card>
+        
+        <Card className="lg:col-span-3">
+          <CardHeader>
+            <CardTitle>Recent Activities</CardTitle>
+            <CardDescription>Latest team activities and updates</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="flex items-center gap-4">
+                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Users className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1 space-y-1">
+                    <p className="text-sm font-medium leading-none">
+                      New team member added
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {i === 1 ? '5 minutes ago' : i === 2 ? '2 hours ago' : i === 3 ? 'Yesterday' : '3 days ago'}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <h2 className="text-xl font-semibold mb-2">Team Collaboration</h2>
-            <p className="text-muted-foreground">
-              Work together seamlessly with your team members in dedicated channels.
-            </p>
-          </div>
-          
-          <div className="rounded-lg border p-6 hover:shadow-md transition-shadow">
-            <div className="bg-primary/10 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-              <FileText className="h-6 w-6 text-primary" />
-            </div>
-            <h2 className="text-xl font-semibold mb-2">File Sharing</h2>
-            <p className="text-muted-foreground">
-              Share files and documents with your team with just a few clicks.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-16 text-center">
-          <h2 className="text-2xl font-bold mb-4">Ready to get started?</h2>
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Join thousands of teams who are already using AromaChat to improve their communication.
-          </p>
-          <button className="bg-primary text-primary-foreground px-6 py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
-            Get Started for Free
-          </button>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

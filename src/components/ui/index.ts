@@ -133,3 +133,6 @@ export { ToggleGroup, ToggleGroupItem } from './toggle-group';
 
 // Tooltip
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './tooltip';
+
+// Shadcn/ui Toast (use-toast.ts)
+export * from './use-toast';

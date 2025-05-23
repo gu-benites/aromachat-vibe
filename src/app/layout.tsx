@@ -6,7 +6,7 @@ import { ThemeProvider } from '@/features/theme/components/theme-provider';
 import { MainLayout } from '@/features/layout/components/main-layout';
 import { cn } from '@/lib/utils/cn';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { SidebarProvider } from '@/features/layout/contexts/sidebar-context';
+// import { SidebarProvider } from '@/features/layout/contexts/sidebar-context'; // Removed
 
 const inter = Inter({ 
   subsets: ['latin'], 
@@ -96,11 +96,11 @@ export default function RootLayout({
         >
           <ThemeWrapper>
             <TooltipProvider delayDuration={300} skipDelayDuration={0}>
-              <SidebarProvider>
+              {/* <SidebarProvider> */}
                 <MainLayout>
                   {children}
                 </MainLayout>
-              </SidebarProvider>
+              {/* </SidebarProvider> */}
             </TooltipProvider>
           </ThemeWrapper>
         </ThemeProvider>

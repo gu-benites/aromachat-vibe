@@ -1,6 +1,6 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* stylelint-disable */
 @layer base {
@@ -62,16 +62,15 @@
 
 @layer base {
   * {
-    border-color: hsl(var(--border));
+    @apply border-border; /* Updated from template */
   }
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    font-feature-settings: 'rlig' 1, 'calt' 1;
+    @apply bg-background text-foreground; /* Updated from template */
+    font-feature-settings: 'rlig' 1, 'calt' 1; /* Existing preserved */
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Existing preserved */
 .sidebar-content::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -100,7 +99,7 @@
   scrollbar-color: hsl(var(--muted-foreground) / 0.5) transparent;
 }
 
-/* Animation utilities */
+/* Animation utilities - Existing preserved */
 @layer utilities {
   .transition-transform {
     transition-property: transform;
@@ -145,7 +144,7 @@
   }
 }
 
-/* Sidebar collapsed state */
+/* Sidebar collapsed state - Existing preserved */
 .sidebar-collapsed .nav-text,
 .sidebar-collapsed .user-info-main,
 .sidebar-collapsed .app-name,
@@ -199,7 +198,7 @@
   top: -0.25rem;
 }
 
-/* Theme variables mapping */
+/* Theme variables mapping - Existing preserved, ensure no conflicts with new vars */
 :root {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -241,22 +240,25 @@
   --color-brand-accent: var(--primary);
 }
 
-/* Dark mode specific overrides */
+/* Dark mode specific overrides - Existing preserved, ensure no conflicts */
 .dark {
+  /* The oklch values from the original src/app/globals.css are preserved below */
+  /* It's important to verify these oklch values align with the new HSL theme, */
+  /* or if they should be updated/removed. For now, they are kept. */
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.554 0.046 257.417);
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.913 0.022 25.934);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  /* --border: oklch(0.929 0.013 255.508); */ /* Replaced by HSL var */
+  /* --input: oklch(0.929 0.013 255.508); */  /* Replaced by HSL var */
+  /* --ring: oklch(0.704 0.04 256.788); */    /* Replaced by HSL var */
+  /* --chart-1: oklch(0.646 0.222 41.116); */ /* Replaced by HSL var */
+  /* --chart-2: oklch(0.6 0.118 184.704); */  /* Replaced by HSL var */
+  /* --chart-3: oklch(0.398 0.07 227.392); */ /* Replaced by HSL var */
+  /* --chart-4: oklch(0.828 0.189 84.429); */ /* Replaced by HSL var */
+  /* --chart-5: oklch(0.769 0.188 70.08); */  /* Replaced by HSL var */
   --sidebar: oklch(0.984 0.003 247.858);
   --sidebar-foreground: oklch(0.129 0.042 264.695);
   --sidebar-primary: oklch(0.208 0.042 265.755);
@@ -267,48 +269,51 @@
   --sidebar-ring: oklch(0.704 0.04 256.788);
 }
 
+/* The second .dark block from original src/app/globals.css with oklch is also preserved. */
+/* It's important to verify these oklch values. */
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  /* --background: oklch(0.129 0.042 264.695); */ /* Replaced by HSL var */
+  /* --foreground: oklch(0.984 0.003 247.858); */ /* Replaced by HSL var */
+  /* --card: oklch(0.208 0.042 265.755); */       /* Replaced by HSL var */
+  /* --card-foreground: oklch(0.984 0.003 247.858); */ /* Replaced by HSL var */
+  /* --popover: oklch(0.208 0.042 265.755); */     /* Replaced by HSL var */
+  /* --popover-foreground: oklch(0.984 0.003 247.858); */ /* Replaced by HSL var */
+  /* --primary: oklch(0.929 0.013 255.508); */     /* Replaced by HSL var */
+  /* --primary-foreground: oklch(0.208 0.042 265.755); */ /* Replaced by HSL var */
+  /* --secondary: oklch(0.279 0.041 260.031); */   /* Replaced by HSL var */
+  /* --secondary-foreground: oklch(0.984 0.003 247.858); */ /* Replaced by HSL var */
+  --muted: oklch(0.279 0.041 260.031); /* This overrides the previous .dark --muted */
+  --muted-foreground: oklch(0.704 0.04 256.788); /* This overrides the previous .dark --muted-foreground */
+  --accent: oklch(0.279 0.041 260.031); /* This overrides the previous .dark --accent */
+  --accent-foreground: oklch(0.984 0.003 247.858); /* This overrides the previous .dark --accent-foreground */
+  /* --destructive: oklch(0.704 0.191 22.216); */  /* Replaced by HSL var */
+  --border: oklch(1 0 0 / 10%); /* This overrides the HSL var for border in dark mode */
+  --input: oklch(1 0 0 / 15%); /* This overrides the HSL var for input in dark mode */
+  /* --ring: oklch(0.551 0.027 264.364); */        /* Replaced by HSL var */
+  --chart-1: oklch(0.488 0.243 264.376); /* This overrides the HSL var for chart-1 in dark mode */
+  --chart-2: oklch(0.696 0.17 162.48); /* This overrides the HSL var for chart-2 in dark mode */
+  --chart-3: oklch(0.769 0.188 70.08); /* This overrides the HSL var for chart-3 in dark mode */
+  --chart-4: oklch(0.627 0.265 303.9); /* This overrides the HSL var for chart-4 in dark mode */
+  --chart-5: oklch(0.645 0.246 16.439); /* This overrides the HSL var for chart-5 in dark mode */
+  --sidebar: oklch(0.208 0.042 265.755); /* This overrides the previous .dark --sidebar */
+  --sidebar-foreground: oklch(0.984 0.003 247.858); /* This overrides the previous .dark --sidebar-foreground */
+  --sidebar-primary: oklch(0.488 0.243 264.376); /* This overrides the previous .dark --sidebar-primary */
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858); /* This overrides the previous .dark --sidebar-primary-foreground */
+  --sidebar-accent: oklch(0.279 0.041 260.031); /* This overrides the previous .dark --sidebar-accent */
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858); /* This overrides the previous .dark --sidebar-accent-foreground */
+  --sidebar-border: oklch(1 0 0 / 10%); /* This overrides the previous .dark --sidebar-border */
+  /* --sidebar-ring: oklch(0.551 0.027 264.364); */ /* Replaced by HSL var */
 }
+
 
 @layer base {
   * {
-    border-color: hsl(var(--border));
-    outline-color: hsl(var(--ring) / 0.5);
+    /* border-color: hsl(var(--border)); Preserved from template */
+    outline-color: hsl(var(--ring) / 0.5); /* Existing preserved */
   }
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-    font-feature-settings: 'rlig' 1, 'calt' 1;
+    /* background-color: hsl(var(--background)); Preserved from template */
+    /* color: hsl(var(--foreground)); Preserved from template */
+    /* font-feature-settings: 'rlig' 1, 'calt' 1; Preserved from original */
   }
 }
