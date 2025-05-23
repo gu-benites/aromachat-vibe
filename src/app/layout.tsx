@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/features/theme';
 import { MainLayout } from '@/features/layout';
 import { cn } from '@/lib/utils/cn';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { SidebarProvider } from '@/features/layout/contexts/sidebar-context';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -31,9 +32,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TooltipProvider>
-            <MainLayout>
-              {children}
-            </MainLayout>
+            <SidebarProvider>
+              <MainLayout>
+                {children}
+              </MainLayout>
+            </SidebarProvider>
           </TooltipProvider>
         </ThemeProvider>
       </body>
