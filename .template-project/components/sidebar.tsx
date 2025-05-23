@@ -1,33 +1,29 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils/cn';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { 
-  LayoutDashboard as Home,
-  Search,
-  BarChart as BarChart3,
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  BarChart3,
   CheckCircle,
-  Target,
-  Blocks as LayoutGrid,
-  Bell as BellRing,
-  Mail as MailIcon,
-  Kanban as KanbanSquare,
-  ListTodo as CheckCircle2,
-  FileText,
-  Headphones,
-  Settings,
-  LogOut,
   ChevronDown,
   ChevronUp,
+  Home,
+  KanbanSquare,
+  LayoutGrid,
+  LogOut,
+  Mail,
   Menu,
-  Zap,
-  PanelLeft
-} from 'lucide-react';
-import { useSidebar } from '../contexts/sidebar-context';
+  Search,
+  Settings,
+  Target,
+  BellRing,
+  Headphones,
+  FileText,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 type NavItem = {
   title: string;
@@ -39,81 +35,81 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    title: 'Dashboard',
-    href: '/',
+    title: "Dashboard",
+    href: "/",
     icon: <Home className="h-5 w-5" />,
   },
   {
-    title: 'Search',
-    href: '/search',
+    title: "Search",
+    href: "/search",
     icon: <Search className="h-5 w-5" />,
   },
   {
-    title: 'Reporting',
-    href: '/reporting',
+    title: "Reporting",
+    href: "/reporting",
     icon: <BarChart3 className="h-5 w-5" />,
     submenu: true,
   },
   {
-    title: 'Check-ins',
-    href: '/check-ins',
+    title: "Check-ins",
+    href: "/check-ins",
     icon: <CheckCircle className="h-5 w-5" />,
   },
   {
-    title: 'Objectives',
-    href: '/objectives',
+    title: "Objectives",
+    href: "/objectives",
     icon: <Target className="h-5 w-5" />,
   },
   {
-    title: 'Career Hub',
-    href: '/career-hub',
+    title: "Career Hub",
+    href: "/career-hub",
     icon: <LayoutGrid className="h-5 w-5" />,
   },
   {
-    title: 'Notifications',
-    href: '/notifications',
+    title: "Notifications",
+    href: "/notifications",
     icon: <BellRing className="h-5 w-5" />,
     badge: 1,
   },
   {
-    title: 'Mail',
-    href: '/mail',
-    icon: <MailIcon className="h-5 w-5" />,
+    title: "Mail",
+    href: "/mail",
+    icon: <Mail className="h-5 w-5" />,
     submenu: true,
   },
   {
-    title: 'Kanban',
-    href: '/kanban',
+    title: "Kanban",
+    href: "/kanban",
     icon: <KanbanSquare className="h-5 w-5" />,
   },
   {
-    title: 'Tasks',
-    href: '/tasks',
-    icon: <CheckCircle2 className="h-5 w-5" />,
+    title: "Tasks",
+    href: "/tasks",
+    icon: <CheckCircle className="h-5 w-5" />,
     badge: 3,
   },
 ];
 
-const userMenuItems = [
+const userMenuItems: NavItem[] = [
   {
-    title: 'Documentation',
-    href: '/docs',
+    title: "Documentation",
+    href: "/docs",
     icon: <FileText className="h-5 w-5" />,
   },
   {
-    title: 'Support',
-    href: '/support',
+    title: "Support",
+    href: "/support",
     icon: <Headphones className="h-5 w-5" />,
   },
   {
-    title: 'Settings',
-    href: '/settings',
+    title: "Settings",
+    href: "/settings",
     icon: <Settings className="h-5 w-5" />,
   },
 ];
 
 function UserMenu({ collapsed }: { collapsed: boolean }) {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -180,35 +176,9 @@ function UserMenu({ collapsed }: { collapsed: boolean }) {
   );
 }
 
-export function Sidebar(): React.ReactElement {
-  const { isCollapsed: collapsed, toggleSidebar } = useSidebar();
+export function Sidebar() {
   const pathname = usePathname();
-  const [openSubmenus, setOpenSubmenus] = React.useState<Record<string, boolean>>({});
-
-  // Auto-expand submenu for active items
-  React.useEffect(() => {
-    const newOpenSubmenus = { ...openSubmenus };
-    
-    navItems.forEach(item => {
-      if (item.submenu) {
-        const isActive = pathname.startsWith(item.href) && item.href !== '/';
-        if (isActive) {
-          newOpenSubmenus[item.title] = true;
-        }
-      }
-    });
-    
-    setOpenSubmenus(newOpenSubmenus);
-  }, [pathname]);
-
-  const toggleSubmenu = (title: string): void => {
-    setOpenSubmenus(prev => ({
-      ...prev,
-      [title]: !prev[title]
-    }));
-  };
-
-  const isActive = (path: string): boolean => pathname === path;
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <aside
@@ -217,7 +187,6 @@ export function Sidebar(): React.ReactElement {
         collapsed ? "w-16" : "w-64"
       )}
     >
-      {/* Header with logo and collapse button */}
       <div className="flex h-14 items-center justify-between border-b px-4">
         <Link
           href="/"
@@ -234,14 +203,13 @@ export function Sidebar(): React.ReactElement {
         <Button
           variant="ghost"
           size="icon"
-          onClick={toggleSidebar}
+          onClick={() => setCollapsed(!collapsed)}
           className="h-8 w-8"
         >
           <Menu className="h-4 w-4" />
         </Button>
       </div>
 
-      {/* Navigation items */}
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <ul className="space-y-1">
           {navItems.map((item) => (
@@ -249,8 +217,8 @@ export function Sidebar(): React.ReactElement {
               <Link
                 href={item.href}
                 className={cn(
-                  "group relative flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                  isActive(item.href)
+                  "flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  pathname === item.href
                     ? "bg-accent text-accent-foreground"
                     : "hover:bg-accent hover:text-accent-foreground",
                   collapsed && "justify-center px-0"
@@ -267,15 +235,13 @@ export function Sidebar(): React.ReactElement {
                         {item.badge}
                       </span>
                     )}
-                    {item.submenu && (
-                      <ChevronDown className="ml-2 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
-                    )}
+                    {item.submenu && <ChevronDown className="ml-2 h-4 w-4" />}
                   </div>
                 )}
                 {collapsed && item.badge && (
-                  <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                  <div className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
                     {item.badge}
-                  </span>
+                  </div>
                 )}
               </Link>
             </li>
@@ -283,7 +249,6 @@ export function Sidebar(): React.ReactElement {
         </ul>
       </nav>
 
-      {/* User menu */}
       <UserMenu collapsed={collapsed} />
     </aside>
   );

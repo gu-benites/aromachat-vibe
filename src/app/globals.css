@@ -1,168 +1,221 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* stylelint-disable */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 @layer base {
   :root {
+    /* Base colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --popover-foreground: 240 10% 3.9%;
+    
+    /* Brand colors */
+    --primary: 265 89% 78%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* UI colors */
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 10%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 265 89% 78%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    
+    /* Border and input */
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 265 89% 78%;
+    
+    /* Border radius */
     --radius: 0.5rem;
-    --brand-accent: 262.1 83.3% 57.8%; /* MVP color */
+    
+    /* Chart colors */
+    --chart-1: 265 89% 78%;
+    --chart-2: 220 70% 50%;
+    --chart-3: 280 65% 60%;
+    --chart-4: 340 75% 55%;
+    --chart-5: 30 80% 55%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 20.5%; /* MVP color: hover/active item bg dark */
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%; /* MVP color */
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --brand-accent: 262.1 83.3% 57.8%; /* MVP color (no dark variant specified, using light) */
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
+    --primary: 265 89% 78%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 47% 11%;
+    --secondary-foreground: 213 31% 91%;
+    --muted: 223 47% 11%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 265 89% 78%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 265 89% 78%;
+    --chart-1: 265 89% 78%;
+    --chart-2: 220 70% 50%;
+    --chart-3: 280 65% 60%;
+    --chart-4: 340 75% 55%;
+    --chart-5: 30 80% 55%;
   }
-}
 
-@layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
+  
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }
 
-/* Custom scrollbar for webkit browsers */
+/* Custom scrollbar */
 .sidebar-content::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
+  height: 6px;
 }
+
 .sidebar-content::-webkit-scrollbar-thumb {
-    background-color: #a1a1aa; /* zinc-400 */
-    border-radius: 3px;
+  background-color: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 3px;
+  transition: background-color 0.2s;
 }
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--muted-foreground) / 0.5);
+}
+
 .sidebar-content::-webkit-scrollbar-track {
-    background-color: transparent;
-}
-.dark .sidebar-content::-webkit-scrollbar-thumb {
-    background-color: #52525b; /* zinc-600 */
+  background-color: transparent;
 }
 
-/* Hide scrollbar for Firefox */
 .sidebar-content {
-    scrollbar-width: thin;
-    scrollbar-color: #a1a1aa transparent; /* thumb and track - zinc-400 */
-}
-.dark .sidebar-content {
-    scrollbar-color: #52525b transparent; /* zinc-600 */
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
 }
 
-/* For rotating chevrons */
-.rotate-180 {
-    transform: rotate(180deg);
+.dark .sidebar-content {
+  scrollbar-color: hsl(var(--muted-foreground) / 0.5) transparent;
 }
-.transition-transform {
+
+/* Animation utilities */
+@layer utilities {
+  .transition-transform {
     transition-property: transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
+  }
+  
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+  
+  .animate-in {
+    animation: animateIn 0.2s ease-out forwards;
+  }
+  
+  .animate-out {
+    animation: animateOut 0.2s ease-in forwards;
+  }
+  
+  @keyframes animateIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes animateOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
 }
 
-/* Styles for when sidebar is collapsed */
+/* Sidebar collapsed state */
 .sidebar-collapsed .nav-text,
 .sidebar-collapsed .user-info-main,
 .sidebar-collapsed .app-name,
 .sidebar-collapsed .bottom-menu-text,
 .sidebar-collapsed .chevron-icon,
-.sidebar-collapsed .badge-count { /* Target the count specifically */
-    display: none;
+.sidebar-collapsed .badge-count {
+  display: none;
 }
+
 .sidebar-collapsed .nav-item,
 .sidebar-collapsed .logo-area,
 .sidebar-collapsed .user-profile-trigger {
-    justify-content: center;
-}
-.sidebar-collapsed .nav-icon {
-    margin-right: 0;
-}
-.sidebar-collapsed .user-avatar-container {
-    padding: 0.5rem;
-}
-.sidebar-collapsed .user-avatar-img {
-    width: 2rem;
-    height: 2rem;
-}
-.sidebar-collapsed .bottom-user-menu {
-    padding: 0.5rem;
-}
-.sidebar-collapsed .user-profile-trigger .flex-1 {
-    display: none;
-}
-.sidebar-collapsed .user-profile-trigger .chevron-icon { /* Specifically hide chevron in user trigger when collapsed */
-     display: none;
-}
-.sidebar-collapsed .notification-dot { /* Keep notification dot visible */
-    display: inline-block;
-    position: absolute;
-    top: 0.6rem; /* Adjust as needed */
-    right: 0.6rem; /* Adjust as needed */
-}
-.sidebar-collapsed .nav-item-with-badge .nav-icon { /* Ensure icon is relatively positioned for dot */
-    position: relative;
-}
- .sidebar-collapsed .nav-item-with-badge .notification-dot {
-    right: -0.25rem; /* Adjust to position near the icon */
-    top: -0.25rem;
+  justify-content: center;
 }
 
-@theme inline {
+.sidebar-collapsed .nav-icon {
+  margin: 0;
+}
+
+.sidebar-collapsed .user-avatar-container {
+  padding: 0.5rem;
+}
+
+.sidebar-collapsed .user-avatar-img {
+  width: 2rem;
+  height: 2rem;
+}
+
+.sidebar-collapsed .bottom-user-menu {
+  padding: 0.5rem;
+}
+
+.sidebar-collapsed .user-profile-trigger .flex-1,
+.sidebar-collapsed .user-profile-trigger .chevron-icon {
+  display: none;
+}
+
+.sidebar-collapsed .notification-dot {
+  display: inline-block;
+  position: absolute;
+  top: 0.375rem;
+  right: 0.375rem;
+}
+
+.sidebar-collapsed .nav-item-with-badge .nav-icon {
+  position: relative;
+}
+
+.sidebar-collapsed .nav-item-with-badge .notification-dot {
+  right: -0.25rem;
+  top: -0.25rem;
+}
+
+/* Theme variables mapping */
+:root {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -178,6 +231,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -186,33 +240,25 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --sidebar: var(--background);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--accent-foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  --color-brand-accent: var(--primary);
 }
 
-:root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
+/* Dark mode specific overrides */
+.dark {
   --muted: oklch(0.968 0.007 247.896);
   --muted-foreground: oklch(0.554 0.046 257.417);
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.913 0.022 25.934);
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
   --ring: oklch(0.704 0.04 256.788);
@@ -267,9 +313,11 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: hsl(var(--border));
+    outline-color: hsl(var(--ring) / 0.5);
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 }
