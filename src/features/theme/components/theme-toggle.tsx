@@ -2,80 +2,113 @@
 
 import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
-import { useTheme } from './theme-provider';
+
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils/cn';
-import { Theme } from './theme-provider';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { useTheme } from '../hooks/use-theme';
 
 interface ThemeToggleProps {
-  /** Additional class name for the button */
-  className?: string;
-  /** Size of the button */
+  variant?: 'ghost' | 'outline' | 'secondary';
   size?: 'default' | 'sm' | 'lg' | 'icon';
-  /** Variant of the button */
-  variant?: 'default' | 'outline' | 'ghost' | 'link';
-  /** Show a tooltip with the current theme */
+  className?: string;
   showTooltip?: boolean;
+  tooltipPosition?: 'top' | 'right' | 'bottom' | 'left';
 }
 
-/**
- * ThemeToggle component that allows users to switch between light and dark themes
- */
 export function ThemeToggle({
-  className,
-  size = 'icon',
   variant = 'ghost',
-  showTooltip = false,
+  size = 'icon',
+  className,
+  showTooltip = true,
+  tooltipPosition = 'bottom',
 }: ThemeToggleProps) {
-  const { theme, resolvedTheme, setTheme } = useTheme();
-  const isDark = resolvedTheme === 'dark';
   const [mounted, setMounted] = React.useState(false);
+  const { theme, isDark, toggleTheme, isLoading } = useTheme();
+  
+  // Handle theme toggle
+  const handleThemeToggle = React.useCallback(() => {
+    toggleTheme();
+  }, [toggleTheme]);
 
+  // Only render the button after mounting to avoid hydration mismatches
   React.useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Don't render anything during server-side rendering
   if (!mounted) {
     return (
       <Button
         variant={variant}
         size={size}
-        className={cn('rounded-full', className)}
-        aria-label="Toggle theme"
-      />
+        className={cn('h-9 w-9 rounded-full', className)}
+        aria-label="Loading theme"
+        disabled
+      >
+        <span className="sr-only">Loading theme</span>
+      </Button>
     );
   }
 
-  const toggleTheme = () => {
-    setTheme(isDark ? 'light' : 'dark');
-  };
+
+  const buttonContent = (
+    <>
+      <Sun 
+        className={cn(
+          'h-4 w-4 transition-transform duration-200',
+          'scale-100 rotate-0 dark:-rotate-90 dark:scale-0',
+          'transform-gpu'
+        )} 
+        aria-hidden="true"
+      />
+      <Moon 
+        className={cn(
+          'absolute h-4 w-4 transition-transform duration-200',
+          'scale-0 -rotate-90 dark:rotate-0 dark:scale-100',
+          'transform-gpu'
+        )} 
+        aria-hidden="true"
+      />
+      <span className="sr-only">
+        {isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      </span>
+    </>
+  );
 
   const button = (
     <Button
       variant={variant}
       size={size}
-      onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className={cn('rounded-full', className)}
-      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      onClick={handleThemeToggle}
+      disabled={isLoading}
+      className={cn(
+        'relative h-9 w-9 rounded-full',
+        'transition-all duration-200',
+        'hover:bg-accent hover:text-accent-foreground',
+        'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'disabled:opacity-50 disabled:pointer-events-none',
+        className
+      )}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-live="polite"
     >
-      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">
-        {isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      </span>
+      {buttonContent}
     </Button>
   );
 
-  if (!showTooltip) {
-    return button;
+  if (showTooltip) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {button}
+        </TooltipTrigger>
+        <TooltipContent side={tooltipPosition}>
+          {isDark ? 'Light mode' : 'Dark mode'}
+        </TooltipContent>
+      </Tooltip>
+    );
   }
 
-  return (
-    <div className="relative group">
-      {button}
-      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 absolute right-0 top-full mt-2 px-2 py-1 text-xs bg-foreground text-background rounded whitespace-nowrap">
-        {isDark ? 'Light mode' : 'Dark mode'}
-      </div>
-    </div>
-  );
+  return button;
 }

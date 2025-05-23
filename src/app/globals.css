@@ -1,8 +1,8 @@
-/* stylelint-disable */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* stylelint-disable */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -309,5 +309,6 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    font-feature-settings: 'rlig' 1, 'calt' 1;
   }
 }

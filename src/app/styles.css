@@ -1,0 +1,119 @@
+/* Custom scrollbar for main content */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--muted-foreground) / 0.2);
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--muted-foreground) / 0.4);
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Sidebar transitions */
+.sidebar-container {
+  transition: width 0.2s ease-in-out, transform 0.2s ease-in-out;
+  will-change: width, transform;
+}
+
+/* Smooth theme transitions */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+
+/* Animation for sidebar items */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-4px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.sidebar-content {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  width: auto;
+  background-color: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+  text-align: center;
+  border-radius: var(--radius);
+  padding: 0.25rem 0.5rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid hsl(var(--border));
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidebar-container {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar-container[data-collapsed="false"] {
+    transform: translateX(0);
+  }
+  
+  .sidebar-container[data-collapsed="true"] {
+    width: 4rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .sidebar-container,
+  .theme-toggle,
+  .user-menu {
+    display: none !important;
+  }
+  
+  body * {
+    visibility: hidden;
+  }
+  
+  #main-content,
+  #main-content * {
+    visibility: visible;
+  }
+  
+  #main-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}

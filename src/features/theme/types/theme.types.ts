@@ -1,5 +1,23 @@
 export type Theme = 'light' | 'dark' | 'system';
 
+export interface UseThemeProps {
+  theme?: Theme;
+  setTheme: (theme: Theme) => void;
+  systemTheme?: 'light' | 'dark' | null;
+  resolvedTheme?: 'light' | 'dark' | null;
+  themes: Theme[];
+}
+
+export interface UseThemeReturn {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+  isDark: boolean;
+  isLoading: boolean;
+  systemTheme: 'light' | 'dark' | null;
+  resolvedTheme: 'light' | 'dark' | null;
+  themes: Theme[];
+}
+
 export interface ThemeProviderProps {
   children: React.ReactNode;
   /**
